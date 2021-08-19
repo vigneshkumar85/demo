@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class Hellocontroller {
 
-    @GetMapping("/getDetails")
+    @GetMapping("/")
 	public String index() {
-		return "Welcome to Sample Vikki1 Project!!!";
+		return "Welcome to Sample Vikki11 Project!!!";
 	}
     
 }
