@@ -1,7 +1,7 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
 
-name: Build and deploy ASP app to Azure Web App - vkmtestwebappwind1(staging)
+name: Build and deploy JAR app to Azure Web App - vkmtestwebappwind1(staging)
 
 on:
   push:
@@ -11,31 +11,27 @@ on:
 
 jobs:
   build:
-    runs-on: 'windows-latest'
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v2
 
-    - name: Setup MSBuild path
-      uses: microsoft/setup-msbuild@v1.0.2
+    - name: Set up Java version
+      uses: actions/setup-java@v1
+      with:
+        java-version: '8'
 
-    - name: Setup NuGet
-      uses: NuGet/setup-nuget@v1.0.5
-
-    - name: Restore NuGet packages
-      run: nuget restore
-
-    - name: Publish to folder
-      run: msbuild /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="\published\"
+    - name: Build with Maven
+      run: mvn clean install
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v2
       with:
-        name: ASP-app
-        path: '/published/**'
+        name: java-app
+        path: '${{ github.workspace }}/target/*.jar'
 
   deploy:
-    runs-on: 'windows-latest'
+    runs-on: windows-latest
     needs: build
     environment:
       name: 'staging'
@@ -45,7 +41,7 @@ jobs:
     - name: Download artifact from build job
       uses: actions/download-artifact@v2
       with:
-        name: ASP-app
+        name: java-app
 
     - name: Deploy to Azure Web App
       id: deploy-to-webapp
@@ -53,5 +49,5 @@ jobs:
       with:
         app-name: 'vkmtestwebappwind1'
         slot-name: 'staging'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_26aef84e872148d9bd47d112a955ecc5 }}
-        package: .
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_f13c7a1c0bba455b9b82289e53ead4ec }}
+        package: '*.jar'
