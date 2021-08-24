@@ -49,5 +49,5 @@ jobs:
       with:
         app-name: 'vkmtestwebappwind1'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_cd2f79ba5f3c48f49056165811648874 }}
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_19a585c2c2d94b2a8f123548279df466 }}
         package: '*.jar'
