@@ -8,7 +8,7 @@ public class Hellocontroller {
 
     @GetMapping("/")
 	public String index() {
-		return "Welcome to Sample Vikki22 Project!!!";
+		return "Welcome to Sample Vikki 08232021 Project!!!";
 	}
     
 }
